@@ -5,6 +5,14 @@ import string
 # this library is used to check if the words in decrypted message are actually english.
 import enchant
 
+'''
+in a Caesar Cipher, the numbers are rotated clock wise or anti clock wise, it could be any of 26 possibilities.
+simple example:
+abc-bca
+abc-cab
+'''
+
+
 # the most common basic english words.
 basic_words = [
     "i","a","of","to","in","it","is","be","as","at","so","we","he","by",
@@ -51,11 +59,16 @@ def get_decrypt(str, outtab):
 # If it has common words, it moves to stage 2 check.
 def is_in_english(quote):
     each_word = quote.split()
-    if any(ext in each_word for ext in basic_words):
-        decrypt_list.append(quote)
-        level_2_check(quote)
-    else:
-        pass
+    decrypt_list.append(quote)
+    level_2_check(quote)
+    #
+    # if any(ext in each_word for ext in basic_words):
+    #     decrypt_list.append(quote)
+    #     level_2_check(quote)
+    # else:
+    #     decrypt_list.append(quote)
+    #     level_2_check(quote)
+
 
 # Level 2 check will give score.
 def level_2_check(line):
@@ -73,7 +86,9 @@ def show_final_guess(input_word):
     total_words = len(input_word.split())
     for line in range(0,len(decrypt_list)):
         probability = decrypt_score[line]/total_words * 100
-        print(decrypt_list[line] +" - "+ str(probability) + "%")
+        if probability >= 20:
+            print(decrypt_list[line] +" - "+ str(probability) + "%")
+
 
 if __name__ == "__main__":
     crypt = get_crypted()
